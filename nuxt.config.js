@@ -34,10 +34,17 @@ export default {
     '@nuxtjs/eslint-module',
   ],
 
+  primevue: {
+    theme: 'saga-orange',
+    ripple: true,
+    components: ['InputText', 'Button', 'Toast'],
+  },
+
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    'primevue/nuxt',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
