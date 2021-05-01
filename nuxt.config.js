@@ -19,8 +19,14 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
+  // Server to specity host and port for server instance
+  server: {
+    port: 3000, // default: 3000
+    host: '0.0.0.0', // default: localhost
+  },
+
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: ['@/assets/scss/main.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [],
@@ -47,6 +53,7 @@ export default {
     '@nuxtjs/axios',
     'primevue/nuxt',
     '@nuxtjs/dotenv',
+    'nuxt-client-init-module',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
