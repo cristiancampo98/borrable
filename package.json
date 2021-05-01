@@ -1,7 +1,8 @@
 {
-  "name": "stack-frontV2",
+  "name": "stack-front-bo",
   "version": "1.0.0",
   "private": true,
+  "author": "Kubo S.A.S",
   "scripts": {
     "build": "nuxt build",
     "start": "nuxt start",
@@ -9,17 +10,21 @@
     "lint": "npm run lint:js",
     "dev:development": "cross-env ENV=development nuxt",
     "dev:staging": "cross-env ENV=staging nuxt",
-    "dev:production": "cross-env ENV=staging nuxt",
+    "dev:production": "cross-env ENV=production nuxt",
     "generate:development": "cross-env ENV=development nuxt generate",
     "generate:staging": "cross-env ENV=staging nuxt generate",
     "generate:production": "cross-env ENV=production nuxt generate"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.13.1",
+    "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.9.1",
     "cross-env": "^7.0.3",
+    "crypto": "^1.0.1",
+    "date-fns": "^2.21.1",
     "nuxt": "^2.15.3",
     "nuxt-client-init-module": "^0.3.0",
+    "nuxt-i18n": "^6.26.0",
     "primeicons": "^4.1.0",
     "primevue": "^2.4.1"
   },
