@@ -7,17 +7,22 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'stack-frontV2',
-    htmlAttrs: {
-      lang: 'en',
-    },
+    titleTemplate: '%s - Stack Front',
+    title: 'Stack Front para los BO',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Stack Front para los Backoffice',
+      },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
+
+  // To import loading component
+  loading: '~/components/general/Loading.vue',
 
   // Server to specity host and port for server instance
   server: {
@@ -29,7 +34,7 @@ export default {
   css: ['@/assets/scss/main.scss'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: ['~/plugins/axios-custom', { src: '~/plugins/mixins', ssr: false }],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -38,9 +43,9 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
-    ['@nuxtjs/dotenv', { filename: 'environments/.env.' + process.env.ENV }],
   ],
 
+  // Prime vue: https://www.primefaces.org/primevue/showcase/#/setup
   primevue: {
     theme: 'saga-orange',
     ripple: true,
@@ -52,8 +57,40 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     'primevue/nuxt',
-    '@nuxtjs/dotenv',
     'nuxt-client-init-module',
+    ['@nuxtjs/dotenv', { filename: 'environments/.env.' + process.env.ENV }],
+    ['cookie-universal-nuxt', { alias: 'cookies' }],
+    [
+      'nuxt-i18n',
+      {
+        locales: [
+          {
+            code: 'en',
+            file: 'en.js',
+            name: 'English',
+            image:
+              'https://blogs.imf-formacion.com/blog/corporativo/wp-content/uploads/ICONO-4_INGLES.png',
+          },
+          {
+            code: 'es',
+            file: 'es.js',
+            name: 'Español',
+            image:
+              'https://images.vexels.com/media/users/3/164599/isolated/preview/ce858535b77f22068049aca2457e59ad-c-iacute-rculo-de-icono-de-idioma-de-bandera-de-espa-ntilde-a-by-vexels.png',
+          },
+          {
+            code: 'it',
+            file: 'it.js',
+            name: 'Italiano',
+            image:
+              'https://images.vexels.com/media/users/3/164331/isolated/preview/aad83398a42c589aa011f1d9a3e8a1dc-c-iacute-rculo-de-icono-de-idioma-de-bandera-de-italia-by-vexels.png',
+          },
+        ],
+        lazy: true,
+        langDir: 'lang/',
+        defaultLocale: 'es',
+      },
+    ],
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
