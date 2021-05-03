@@ -2,11 +2,6 @@
   <div class="container">
     <h1>Hola mundo</h1>
 
-    <form @submit.prevent="greet">
-      <InputText v-model="text" type="text" />
-      <Button type="submit" label="Submit" />
-    </form>
-
     <div>
       <span @click="$router.push(localePath({ path: 'auth-service' }))">{{
         $t('index.goTo')
@@ -26,7 +21,21 @@
 
     <Button type="submit" label="Mostrar alert" @click="showTestAlert" />
 
-    <GeneralInput />
+    <GeneralForm title="Este es un formulario" @accept="acceptForm">
+      <GeneralInput
+        v-for="(input, index) in form"
+        :key="index"
+        v-model="input.value"
+        :label="input.label"
+        :placeholder="input.placeholder"
+        :name="input.name"
+        :type="input.type"
+        :validate="validateInput"
+        @setStatus="changeSubmit"
+      />
+
+      <Button type="submit" label="Enviar" />
+    </GeneralForm>
   </div>
 </template>
 
@@ -35,6 +44,29 @@ export default {
   data() {
     return {
       text: null,
+      submitStatus: null,
+      validateInput: false,
+      form: [
+        {
+          label: 'Nombre del punto de venta',
+          placeholder: 'Punto de venta',
+          name: 'pos',
+          value: '',
+        },
+        {
+          placeholder: 'Cantidad de elementos',
+          name: 'quantity',
+          value: '',
+          type: 'number',
+        },
+        {
+          label: 'Correo electrónico',
+          name: 'email',
+          value: '',
+          type: 'email',
+        },
+      ],
+      error: [],
     }
   },
   computed: {
@@ -51,6 +83,38 @@ export default {
         type: 'success',
         message: 'Mensaje de prueba',
       })
+    },
+    acceptForm() {
+      this.error = []
+      this.validateInput = true
+      const self = this
+      setTimeout(() => {
+        self.validateInput = false
+
+        self.validateForm()
+      }, 500)
+    },
+    changeSubmit(_data) {
+      this.error.push(_data)
+    },
+    validateForm() {
+      if (this.error.length > 0) {
+        this.showAlert({
+          type: 'error',
+          message: 'Debes llenar el campo vacío',
+        })
+      } else {
+        const form = {}
+
+        this.form.forEach((r) => {
+          form[r.name] = r.value
+        })
+
+        this.showAlert({
+          type: 'success',
+          message: 'Formulario enviado',
+        })
+      }
     },
   },
 }
