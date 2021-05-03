@@ -25,6 +25,8 @@
     </div>
 
     <Button type="submit" label="Mostrar alert" @click="showTestAlert" />
+
+    <GeneralInput />
   </div>
 </template>
 
