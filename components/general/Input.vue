@@ -17,22 +17,27 @@
       @input="sendInfo($event)"
     />
 
-    <div v-for="(item, index) in Object.keys(validation.message)" :key="index">
-      <small
-        v-if="!$v.value[item]"
-        :id="name"
-        :class="{ error: true, 'p-error': $v.value.$error }"
-        >{{
-          $t(validation.message[item].key, validation.message[item].additional)
-        }}</small
+    <div v-if="$v.value.$error">
+      <div
+        v-for="(item, index) in Object.keys(validation.message)"
+        :key="index"
       >
+        <small
+          v-if="!$v.value[item]"
+          :class="{ error: true, 'p-error': $v.value.$error }"
+          >{{
+            $t(
+              validation.message[item].key,
+              validation.message[item].additional
+            )
+          }}</small
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-// import { required, minLength, between } from 'vuelidate/lib/validators'
-
 export default {
   name: 'Input',
   props: {
@@ -70,27 +75,21 @@ export default {
   },
   validations() {
     const validation = { value: this.validation.validations }
-    console.log('Registra validaciones', validation)
     return validation
   },
   watch: {
     validate(_new, _old) {
-      console.log('Ingresa 2')
       if (_new) this.submit()
     },
   },
   mounted() {
-    console.log('Componente creado', this.$v)
+    this.$v.value.$reset()
   },
   methods: {
     submit() {
-      console.log('Ingresa 3')
-      console.log('V:', this.$v)
       this.$v.$touch()
 
-      console.log('Ingresa 4')
       if (this.$v.$invalid) {
-        console.log('Ingresa 5')
         this.$emit('setStatus', this.name)
       }
     },

@@ -19,8 +19,6 @@
       /></nuxt-link>
     </div>
 
-    {{ $t('index.testSend', { name: 'Ejemplo' }) }}
-
     <Button type="submit" label="Mostrar alert" @click="showTestAlert" />
 
     <GeneralForm
@@ -126,7 +124,6 @@ export default {
       }, 500)
     },
     changeSubmit(_data) {
-      console.log('Ingresa')
       this.error.push(_data)
     },
     validateForm() {
