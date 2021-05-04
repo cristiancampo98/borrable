@@ -22,6 +22,7 @@ export default {
         max: 'No puede contener más de {data} carácteres',
       },
     },
+    pos: 'El {data} del punto de venta es necesario',
   },
   store: {
     apiServices: {

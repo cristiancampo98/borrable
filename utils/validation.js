@@ -5,6 +5,7 @@ const rules = {
   name: { minLength: minLength(4), maxLength: maxLength(20) },
   email: { maxLengthE: maxLength(50) },
 }
+
 const messages = {
   require: { required: { key: 'rule.validation.require', additional: {} } },
   name: {
@@ -25,7 +26,7 @@ export const generateValidation = (_rules) => {
   const validations = {}
   const messagesResponse = {}
 
-  Object.keys(validation).forEach((key) => {
+  Object.keys(validation).forEach((key, index) => {
     const values = rules[key]
     const message = messages[key]
 
@@ -36,9 +37,18 @@ export const generateValidation = (_rules) => {
       validations[valKey] = values[valKey]
     })
 
-    messageKeys.forEach((valKey) => {
-      messagesResponse[valKey] = message[valKey]
-    })
+    if (_rules[index].message && _rules[index].message.length > 0) {
+      _rules[index].message.forEach((valKey) => {
+        messagesResponse[valKey] = {
+          key: valKey.key,
+          additional: valKey.additional,
+        }
+      })
+    } else {
+      messageKeys.forEach((valKey) => {
+        messagesResponse[valKey] = message[valKey]
+      })
+    }
   })
 
   return { validations, message: messagesResponse }

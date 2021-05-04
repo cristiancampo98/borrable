@@ -80,7 +80,10 @@ export default {
           name: 'pos',
           value: '',
           validations: await generateValidation([
-            { name: 'require' },
+            {
+              name: 'require',
+              message: [{ key: 'rule.pos', additional: { data: 'nombre' } }],
+            },
             { name: 'name' },
           ]),
         },
