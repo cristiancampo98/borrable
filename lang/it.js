@@ -1,6 +1,27 @@
 export default {
   index: {
     goTo: 'Prova le convalide di accesso',
+    form: {
+      pos: {
+        label: 'Italiani :v',
+        placeholder: 'ccc',
+      },
+      quantity: {
+        placeholder: 'come',
+      },
+      email: {
+        label: 'va',
+      },
+    },
+  },
+  rule: {
+    validation: {
+      require: 'Requerido en italiano',
+      length: {
+        min: 'Mínimo {data}',
+        max: 'Máximo {data}',
+      },
+    },
   },
   store: {
     apiServices: {

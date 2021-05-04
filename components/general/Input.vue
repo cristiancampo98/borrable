@@ -6,6 +6,7 @@
     <label v-if="label !== ''" class="form__label" :for="name">{{
       label
     }}</label>
+
     <InputText
       :id="name"
       :value="value"
@@ -15,18 +16,22 @@
       :placeholder="placeholder"
       @input="sendInfo($event)"
     />
-    <small v-if="!$v.value.required" :id="name" class="error"
-      >Field is required</small
-    >
-    <small v-if="!$v.value.minLength" :id="name" class="error"
-      >Name must have at least
-      {{ $v.value.$params.minLength.min }} letters.</small
-    >
+
+    <div v-for="(item, index) in Object.keys(validation.message)" :key="index">
+      <small
+        v-if="!$v.value[item]"
+        :id="name"
+        :class="{ error: true, 'p-error': $v.value.$error }"
+        >{{
+          $t(validation.message[item].key, validation.message[item].additional)
+        }}</small
+      >
+    </div>
   </div>
 </template>
 
 <script>
-import { required, minLength, between } from 'vuelidate/lib/validators'
+// import { required, minLength, between } from 'vuelidate/lib/validators'
 
 export default {
   name: 'Input',
@@ -58,26 +63,34 @@ export default {
       type: Boolean,
       required: true,
     },
+    validation: {
+      type: Object,
+      required: true,
+    },
   },
-  validations: {
-    value: {
-      required,
-      minLength: minLength(4),
-    },
-    age: {
-      between: between(20, 30),
-    },
+  validations() {
+    const validation = { value: this.validation.validations }
+    console.log('Registra validaciones', validation)
+    return validation
   },
   watch: {
     validate(_new, _old) {
+      console.log('Ingresa 2')
       if (_new) this.submit()
     },
   },
+  mounted() {
+    console.log('Componente creado', this.$v)
+  },
   methods: {
     submit() {
+      console.log('Ingresa 3')
+      console.log('V:', this.$v)
       this.$v.$touch()
 
+      console.log('Ingresa 4')
       if (this.$v.$invalid) {
+        console.log('Ingresa 5')
         this.$emit('setStatus', this.name)
       }
     },

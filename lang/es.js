@@ -1,6 +1,27 @@
 export default {
   index: {
     goTo: 'Probar validaciones login',
+    form: {
+      pos: {
+        label: 'Nombre del punto de venta',
+        placeholder: 'Punto de venta',
+      },
+      quantity: {
+        placeholder: 'Cantidad de elementos',
+      },
+      email: {
+        label: 'Correo electrónico',
+      },
+    },
+  },
+  rule: {
+    validation: {
+      require: 'El dato es requerido para continuar',
+      length: {
+        min: 'Debe contener al menos {data} carácteres',
+        max: 'No puede contener más de {data} carácteres',
+      },
+    },
   },
   store: {
     apiServices: {

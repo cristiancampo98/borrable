@@ -1,23 +1,45 @@
-import { required } from 'vuelidate/lib/validators'
+import { required, minLength, maxLength } from 'vuelidate/lib/validators'
 
-const require = [
-  v => !!v || 'El dato es necesario'
-]
+const rules = {
+  require: { required },
+  name: { minLength: minLength(4), maxLength: maxLength(20) },
+  email: { maxLengthE: maxLength(50) },
+}
+const messages = {
+  require: { required: { key: 'rule.validation.require', additional: {} } },
+  name: {
+    minLength: { key: 'rule.validation.length.min', additional: { data: 4 } },
+    maxLength: { key: 'rule.validation.length.max', additional: { data: 20 } },
+  },
+  email: {
+    maxLengthE: { key: 'rule.validation.length.max', additional: { data: 50 } },
+  },
+}
 
-const email = [
-  v =>
-    /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g.test(
-      v
-    ) || 'El email debe ser válido',
-  v => v == 'ejemplo' || 'Debe contener XXX'
-]
+export const generateValidation = (_rules) => {
+  const validation = {}
+  _rules.forEach((element) => {
+    validation[element.name] = rules[element.name]
+  })
 
-export const generateValidation = (name, rules) => {
   const validations = {}
+  const messagesResponse = {}
 
-  rules.forEach(element => {
-    validations[element.name] = {...element.name}
-  });
+  Object.keys(validation).forEach((key) => {
+    const values = rules[key]
+    const message = messages[key]
 
-  return { [name]: validations }
+    const valueKeys = Object.keys(values)
+    const messageKeys = Object.keys(message)
+
+    valueKeys.forEach((valKey) => {
+      validations[valKey] = values[valKey]
+    })
+
+    messageKeys.forEach((valKey) => {
+      messagesResponse[valKey] = message[valKey]
+    })
+  })
+
+  return { validations, message: messagesResponse }
 }

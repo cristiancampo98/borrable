@@ -19,9 +19,16 @@
       /></nuxt-link>
     </div>
 
+    {{ $t('index.testSend', { name: 'Ejemplo' }) }}
+
     <Button type="submit" label="Mostrar alert" @click="showTestAlert" />
 
-    <GeneralForm title="Este es un formulario" @accept="acceptForm">
+    <GeneralForm
+      v-if="form.length > 0"
+      title="Este es un formulario"
+      subtitle="Ejemplo de subtítulo"
+      @accept="acceptForm"
+    >
       <GeneralInput
         v-for="(input, index) in form"
         :key="index"
@@ -31,6 +38,7 @@
         :name="input.name"
         :type="input.type"
         :validate="validateInput"
+        :validation="input.validations"
         @setStatus="changeSubmit"
       />
 
@@ -40,33 +48,17 @@
 </template>
 
 <script>
+import { generateValidation } from '~/utils/validation'
+
 export default {
   data() {
     return {
       text: null,
       submitStatus: null,
       validateInput: false,
-      form: [
-        {
-          label: 'Nombre del punto de venta',
-          placeholder: 'Punto de venta',
-          name: 'pos',
-          value: '',
-        },
-        {
-          placeholder: 'Cantidad de elementos',
-          name: 'quantity',
-          value: '',
-          type: 'number',
-        },
-        {
-          label: 'Correo electrónico',
-          name: 'email',
-          value: '',
-          type: 'email',
-        },
-      ],
+      form: [],
       error: [],
+      validations: {},
     }
   },
   computed: {
@@ -74,7 +66,43 @@ export default {
       return this.$i18n.locales.filter((i) => i.code !== this.$i18n.locale)
     },
   },
+  mounted() {
+    this.$nextTick(() => {
+      this.init()
+    })
+  },
   methods: {
+    async init() {
+      this.form = [
+        {
+          label: this.$t('index.form.pos.label'),
+          placeholder: this.$t('index.form.pos.placeholder'),
+          name: 'pos',
+          value: '',
+          validations: await generateValidation([
+            { name: 'require' },
+            { name: 'name' },
+          ]),
+        },
+        {
+          placeholder: this.$t('index.form.quantity.placeholder'),
+          name: 'quantity',
+          value: '',
+          type: 'number',
+          validations: await generateValidation([{ name: 'require' }]),
+        },
+        {
+          label: this.$t('index.form.email.label'),
+          name: 'email',
+          value: '',
+          type: 'email',
+          validations: await generateValidation([
+            { name: 'require' },
+            { name: 'email' },
+          ]),
+        },
+      ]
+    },
     greet() {
       this.$toast.add({ severity: 'info', summary: 'Hello ' + this.text })
     },
@@ -95,6 +123,7 @@ export default {
       }, 500)
     },
     changeSubmit(_data) {
+      console.log('Ingresa')
       this.error.push(_data)
     },
     validateForm() {

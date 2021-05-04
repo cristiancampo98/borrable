@@ -1,6 +1,27 @@
 export default {
   index: {
     goTo: 'Test login validations',
+    form: {
+      pos: {
+        label: 'POS Name',
+        placeholder: 'Point of sale',
+      },
+      quantity: {
+        placeholder: 'Quantity',
+      },
+      email: {
+        label: 'Email',
+      },
+    },
+  },
+  rule: {
+    validation: {
+      require: 'Is required',
+      length: {
+        min: 'Min {data} carácteres',
+        max: 'Max {data} carácteres',
+      },
+    },
   },
   store: {
     apiServices: {
