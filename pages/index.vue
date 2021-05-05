@@ -1,26 +1,20 @@
 <template>
   <div class="container">
-    <h1>Hola mundo</h1>
+    <main class="container">
+      <section>
+        <img
+          src="https://miro.medium.com/fit/c/344/344/1*ag7HY-sKUeJWA-PewBt9Mw.png"
+          alt="Logo Backoffice"
+        />
+      </section>
+      <section>
+        <div>Login</div>
+        <div>Forgot Password</div>
+      </section>
 
-    <div>
-      <span @click="$router.push(localePath({ path: 'auth-service' }))">{{
-        $t('index.goTo')
-      }}</span>
-      <br />
-      <nuxt-link :to="localePath('auth-service')">{{
-        $t('index.goTo')
-      }}</nuxt-link>
-    </div>
-
-    <div v-for="locale in availableLocales" :key="locale.code">
-      <img :src="locale.image" height="50" width="50" />
-      <nuxt-link :to="switchLocalePath(locale.code)"
-        >{{ locale.name }}<br
-      /></nuxt-link>
-    </div>
-
-    <Button type="submit" label="Mostrar alert" @click="showTestAlert" />
-
+      <GeneralLanguage />
+      <div>Modal de confirmación para "Forgot Password"</div>
+    </main>
     <GeneralForm
       v-if="form.length > 0"
       title="Este es un formulario"

@@ -53,7 +53,7 @@ export default {
   primevue: {
     theme: 'saga-orange',
     ripple: true,
-    components: ['InputText', 'Button', 'Toast'],
+    components: ['InputText', 'Button', 'Toast', 'Dropdown'],
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -73,7 +73,7 @@ export default {
             file: 'en.js',
             name: 'English',
             image:
-              'https://blogs.imf-formacion.com/blog/corporativo/wp-content/uploads/ICONO-4_INGLES.png',
+              'https://images.vexels.com/media/users/3/163966/isolated/preview/6ecbb5ec8c121c0699c9b9179d6b24aa-c-iacute-rculo-de-icono-de-idioma-de-bandera-de-inglaterra-by-vexels.png',
           },
           {
             code: 'es',
