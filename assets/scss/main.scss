@@ -1,0 +1,10 @@
+body {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+@import 'primeflex/primeflex.css';
+
+@import 'views/login';
+@import 'utilities/animations';
+@import 'vendors/primevue';
