@@ -53,7 +53,7 @@ export default {
   primevue: {
     theme: 'saga-orange',
     ripple: true,
-    components: ['InputText', 'Button', 'Toast', 'Dropdown'],
+    components: ['InputText', 'Button', 'Toast', 'Dropdown', 'Tooltip'],
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
