@@ -1,6 +1,6 @@
 <template>
   <div
-    class="form-group p-field"
+    class="general-input-text form-group p-field"
     :class="{ 'form-group--error': $v.value.$error }"
   >
     <label v-if="label !== ''" class="form__label" :for="name">{{
@@ -9,12 +9,14 @@
 
     <InputText
       :id="name"
+      v-tooltip.bottom="tooltip"
       :value="value"
       :name="name"
       :type="type"
       :class="{ form__input: true, 'p-invalid': $v.value.$error }"
       :placeholder="placeholder"
       @input="sendInfo($event)"
+      @keyup.enter.prevent="sendForm"
     />
 
     <div v-if="$v.value.$error">
@@ -72,6 +74,11 @@ export default {
       type: Object,
       required: true,
     },
+    tooltip: {
+      type: String,
+      required: false,
+      default: '',
+    },
   },
   validations() {
     const validation = { value: this.validation.validations }
@@ -96,6 +103,22 @@ export default {
     sendInfo(_value) {
       this.$emit('input', _value)
     },
+    sendForm() {
+      this.submit()
+
+      this.$emit('submit')
+    },
   },
 }
 </script>
+
+<style lang="scss">
+.general-input-text {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  label {
+    margin-bottom: 7px;
+  }
+}
+</style>
