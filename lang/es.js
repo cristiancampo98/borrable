@@ -1,18 +1,24 @@
 export default {
-  index: {
-    goTo: 'Probar validaciones login',
-    form: {
-      pos: {
-        label: 'Nombre del punto de venta',
-        placeholder: 'Punto de venta',
-      },
-      quantity: {
-        placeholder: 'Cantidad de elementos',
-      },
-      email: {
-        label: 'Correo electrónico',
-      },
+  application: 'Nombre del Backoffice',
+  title: {
+    login: 'Iniciar sesión',
+    forgotPassword: 'Recuperar contraseña',
+  },
+  form: {
+    email: {
+      label: 'Correo electrónico',
+      placeholder: 'Correo electrónico',
     },
+    password: {
+      label: 'Contraseña',
+      placeholder: 'Contraseña',
+      tooltip:
+        'La contraseña debe contener al menos una minúscula, una mayúscula, un número y un símbolo',
+    },
+  },
+  button: {
+    login: 'Iniciar sesión',
+    forgotPassword: '¿Olvidaste tu contraseña?',
   },
   rule: {
     validation: {
@@ -21,8 +27,11 @@ export default {
         min: 'Debe contener al menos {data} carácteres',
         max: 'No puede contener más de {data} carácteres',
       },
+      email: 'Debe ser una dirección de correo válida',
+      password: {
+        valid: 'La contraseña debe ser válida',
+      },
     },
-    pos: 'El {data} del punto de venta es necesario',
   },
   store: {
     apiServices: {

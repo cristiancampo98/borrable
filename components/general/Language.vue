@@ -1,13 +1,12 @@
 <template>
   <div id="languageSelector">
     <Dropdown
-      v-if="availableLocales.length > 1"
+      v-show="availableLocales.length > 1"
       v-model="lang"
       :options="availableLocales"
       option-label="name"
       option-value="code"
       :filter="true"
-      placeholder="Seleccionar Idioma"
       @change="changeLang(lang)"
     >
       <template #value="slotProps">
@@ -15,9 +14,6 @@
           <img :src="selectedLang.image" />
           <div>{{ selectedLang.name }}</div>
         </div>
-        <span v-else>
-          {{ slotProps.placeholder }}
-        </span>
       </template>
       <template #option="slotProps">
         <div class="language-item">
