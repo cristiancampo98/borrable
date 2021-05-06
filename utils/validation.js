@@ -1,19 +1,32 @@
-import { required, minLength, maxLength } from 'vuelidate/lib/validators'
+import { required, maxLength, email } from 'vuelidate/lib/validators'
 
 const rules = {
   require: { required },
-  name: { minLength: minLength(4), maxLength: maxLength(20) },
-  email: { maxLengthE: maxLength(50) },
+  email: { max: maxLength(50), email },
+  password: {
+    password(value) {
+      const containsUppercase = /[A-Z]/.test(value)
+      const containsLowercase = /[a-z]/.test(value)
+      const containsNumber = /[0-9]/.test(value)
+      const containsSpecial = /[#?!@$%^&*-]/.test(value)
+      return (
+        containsUppercase &&
+        containsLowercase &&
+        containsNumber &&
+        containsSpecial
+      )
+    },
+  },
 }
 
 const messages = {
   require: { required: { key: 'rule.validation.require', additional: {} } },
-  name: {
-    minLength: { key: 'rule.validation.length.min', additional: { data: 4 } },
-    maxLength: { key: 'rule.validation.length.max', additional: { data: 20 } },
-  },
   email: {
-    maxLengthE: { key: 'rule.validation.length.max', additional: { data: 50 } },
+    max: { key: 'rule.validation.length.max', additional: { data: 50 } },
+    email: { key: 'rule.validation.email', additional: {} },
+  },
+  password: {
+    password: { key: 'rule.validation.password.valid', additional: {} },
   },
 }
 
