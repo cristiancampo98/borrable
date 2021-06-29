@@ -1,5 +1,8 @@
 <template>
-  <div v-if="loading" class="viewLoading">Cargando, por favor espere...</div>
+  <div v-if="loading" class="viewLoading">
+    <img src="/loading.gif" alt="Cargando" />
+    <p>Cargando, por favor espere...</p>
+  </div>
 </template>
 
 <script>
@@ -21,16 +24,22 @@ export default {
 <style lang="scss">
 .viewLoading {
   position: fixed;
-  z-index: 1000;
+  z-index: 1010;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(255, 255, 255, 0.596);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   align-content: center;
+  cursor: default;
   img {
-    max-width: 700px;
+    width: 200px;
+  }
+  p {
+    color: white;
+    font-size: 1.1em;
   }
 }
 </style>

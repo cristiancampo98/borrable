@@ -1,27 +1,24 @@
 <template>
-  <main id="login-view" class="container">
-    <section id="section-logo">
-      <img
-        src="https://miro.medium.com/fit/c/344/344/1*ag7HY-sKUeJWA-PewBt9Mw.png"
-        alt="Logo Backoffice"
-        class="slide-in-elliptic-top-fwd"
-      />
-    </section>
-    <section>
-      <LoginContent v-if="showLogin" @open-forgot="showLogin = false" />
-      <div v-else>Forgot Password</div>
-    </section>
-
-    <GeneralLanguage />
-    <div v-show="openModal">Modal de confirmación para "Forgot Password"</div>
-  </main>
+  <div></div>
 </template>
 
 <script>
 export default {
-  data: () => ({
-    showLogin: true,
-    openModal: false,
-  }),
+  layout: 'login',
+  transition: 'initial-transition',
+  mounted() {
+    setTimeout(() => {
+      if (this.$cookies.get('userdata')) {
+        const userData = this.$cookies.get('userdata')
+        if (userData.email) {
+          this.$router.replace({ path: '/reports' })
+        } else {
+          this.$router.replace({ path: '/login' })
+        }
+      } else {
+        this.$router.replace({ path: '/login' })
+      }
+    }, 2000)
+  },
 }
 </script>

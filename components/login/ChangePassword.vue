@@ -1,19 +1,19 @@
 <template>
-  <div id="login-content">
+  <div id="forgot-content">
     <img
       id="logo-login"
       src="/img/ic_logo.svg"
       alt="Logo Backoffice"
-      class="scale-in-bottom p-mb-5"
+      class="scale-in-bottom p-mb-6"
     />
 
     <GeneralForm
       v-show="form.length > 0"
       type="login"
-      class-content="p-mt-5"
-      :title="$t('title.login')"
+      :title="$t('title.changePassword')"
       @accept="acceptForm"
     >
+      <p id="text-form">{{ $t('text.changePassword') }}</p>
       <GeneralInput
         v-for="(input, index) in form"
         :key="index"
@@ -22,35 +22,28 @@
         color-text="white-float"
         :label="input.label"
         :placeholder="input.placeholder"
+        :tooltip="input.tooltip"
         :name="input.name"
         :type="input.type"
         :validate="validateInput"
         :validation="input.validations"
-        :input-style="input.inputStyle"
+        input-style="normal solo-login input-icon rigth-icon"
         :icon="input.icon"
         :icon-label="input.iconLabel"
         @setStatus="changeSubmit"
         @showPassword="showPassword"
       />
 
-      <div id="forgot-password-button">
-        <nuxt-link class="link-style" :to="localePath('/forgot-password')">{{
-          $t('button.forgotPassword')
-        }}</nuxt-link>
-      </div>
-
-      <div class="p-d-flex p-jc-center p-mb-3">
-        <GeneralButton
-          class-button="p-mt-5 p-py-3"
-          type="submit"
-          color="secondary-color"
-          border="secondary-color"
-          weight="bold"
-          width="200px"
-          font-size="1em"
-          :label="$t('button.login')"
-        />
-      </div>
+      <GeneralButton
+        class-button="p-py-3 p-d-block p-mx-auto p-mb-3 p-mt-6"
+        type="submit"
+        color="secondary-color"
+        border="secondary-color"
+        weight="bold"
+        width="200px"
+        font-size="1em"
+        :label="$t('button.reset')"
+      />
     </GeneralForm>
   </div>
 </template>
@@ -74,20 +67,6 @@ export default {
     async init() {
       this.form = [
         {
-          label: this.$t('form.email.label'),
-          placeholder: this.$t('form.email.placeholder'),
-          name: 'email',
-          value: '',
-          type: 'email',
-          iconLabel: 'ic_email.svg',
-          class: 'p-mb-4',
-          inputStyle: 'normal solo-login input-icon',
-          validations: await generateValidation([
-            { name: 'require' },
-            { name: 'email' },
-          ]),
-        },
-        {
           label: this.$t('form.password.label'),
           placeholder: this.$t('form.password.placeholder'),
           tooltip: this.$t('form.password.tooltip'),
@@ -96,8 +75,18 @@ export default {
           type: 'password',
           iconLabel: 'ic_password.svg',
           icon: 'ic_show_password.svg',
-          class: 'p-mb-6',
-          inputStyle: 'normal solo-login input-icon rigth-icon',
+          class: 'p-mb-3',
+          validations: await generateValidation([{ name: 'password' }]),
+        },
+        {
+          label: this.$t('form.confirmPassword.label'),
+          placeholder: this.$t('form.confirmPassword.placeholder'),
+          name: 'confirmPassword',
+          value: '',
+          type: 'password',
+          iconLabel: 'ic_password.svg',
+          icon: 'ic_show_password.svg',
+          class: 'p-mb-3',
           validations: await generateValidation([{ name: 'require' }]),
         },
       ]
@@ -144,27 +133,39 @@ export default {
           form[r.name] = r.value
         })
 
-        this.$nuxt.$loading.start()
+        if (form.password !== form.confirmPassword) {
+          this.showAlert({
+            type: 'error',
+            message: this.$t('rule.validation.password.confirm'),
+          })
+        } else {
+          this.$nuxt.$loading.start()
 
-        this.$store.dispatch('login', form).then((result) => {
-          if (result.status === true) {
-            if (result.code === 100) {
-              this.$router.push(this.localePath({ path: '/reports' }))
+          this.$store.dispatch('passwordRecovery', form).then((result) => {
+            if (result.status === true) {
+              if (result.code === 100) {
+                this.showAlert({
+                  type: 'success',
+                  message: result.message,
+                })
+
+                this.$router.push(this.localePath({ path: '/login' }))
+              } else {
+                this.showAlert({
+                  type: 'error',
+                  message: result.message,
+                })
+              }
             } else {
               this.showAlert({
                 type: 'error',
                 message: result.message,
               })
             }
-          } else {
-            this.showAlert({
-              type: 'error',
-              message: result.message,
-            })
-          }
 
-          this.$nuxt.$loading.finish()
-        })
+            this.$nuxt.$loading.finish()
+          })
+        }
       }
     },
     changeSubmit(_data) {
