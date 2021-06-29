@@ -1,20 +1,29 @@
-import { required, maxLength, email } from 'vuelidate/lib/validators'
+import {
+  required,
+  maxLength,
+  email,
+  minLength,
+} from 'vuelidate/lib/validators'
 
 const rules = {
   require: { required },
   email: { max: maxLength(50), email },
+  url: {
+    max: maxLength(250),
+    url(value) {
+      const url = /((\w+:\/\/)[-a-zA-Z0-9:@;?&=/%+.*!'(),$_{}^~[\]`#|]+)/g.test(
+        value
+      )
+      return url
+    },
+  },
   password: {
+    min: minLength(6),
     password(value) {
       const containsUppercase = /[A-Z]/.test(value)
       const containsLowercase = /[a-z]/.test(value)
       const containsNumber = /[0-9]/.test(value)
-      const containsSpecial = /[#?!@$%^&*-]/.test(value)
-      return (
-        containsUppercase &&
-        containsLowercase &&
-        containsNumber &&
-        containsSpecial
-      )
+      return containsUppercase && containsLowercase && containsNumber
     },
   },
 }
@@ -25,7 +34,12 @@ const messages = {
     max: { key: 'rule.validation.length.max', additional: { data: 50 } },
     email: { key: 'rule.validation.email', additional: {} },
   },
+  url: {
+    max: { key: 'rule.validation.length.max', additional: { data: 250 } },
+    url: { key: 'rule.validation.url', additional: {} },
+  },
   password: {
+    min: { key: 'rule.validation.value.min', additional: { data: 6 } },
     password: { key: 'rule.validation.password.valid', additional: {} },
   },
 }

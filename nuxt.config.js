@@ -38,6 +38,7 @@ export default {
     '~/plugins/axios-custom',
     { src: '~/plugins/mixins', ssr: false },
     { src: '~/plugins/vuelidate', mode: 'both' },
+    { src: '~/plugins/otp-input.js', ssr: false },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -53,7 +54,19 @@ export default {
   primevue: {
     theme: 'saga-orange',
     ripple: true,
-    components: ['InputText', 'Button', 'Toast', 'Dropdown', 'Tooltip'],
+    components: [
+      'InputText',
+      'Button',
+      'Toast',
+      'Dropdown',
+      'Menu',
+      'DataTable',
+      'Column',
+      'Paginator',
+      'Calendar',
+      'Dialog',
+      'MultiSelect',
+    ],
   },
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -69,25 +82,9 @@ export default {
       {
         locales: [
           {
-            code: 'en',
-            file: 'en.js',
-            name: 'English',
-            image:
-              'https://images.vexels.com/media/users/3/163966/isolated/preview/6ecbb5ec8c121c0699c9b9179d6b24aa-c-iacute-rculo-de-icono-de-idioma-de-bandera-de-inglaterra-by-vexels.png',
-          },
-          {
             code: 'es',
             file: 'es.js',
             name: 'Español',
-            image:
-              'https://images.vexels.com/media/users/3/164599/isolated/preview/ce858535b77f22068049aca2457e59ad-c-iacute-rculo-de-icono-de-idioma-de-bandera-de-espa-ntilde-a-by-vexels.png',
-          },
-          {
-            code: 'it',
-            file: 'it.js',
-            name: 'Italiano',
-            image:
-              'https://images.vexels.com/media/users/3/164331/isolated/preview/aad83398a42c589aa011f1d9a3e8a1dc-c-iacute-rculo-de-icono-de-idioma-de-bandera-de-italia-by-vexels.png',
           },
         ],
         lazy: true,

@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import { iv, enc } from '../utils/encrypt'
 
 export const state = () => ({
@@ -34,7 +35,16 @@ export const mutations = {
 
 export const actions = {
   nuxtClientInit({ dispatch }, context) {
+    dispatch('generateIdentification')
     dispatch('generateAccessToken')
+  },
+  generateIdentification({ commit }) {
+    let uid = this.$cookies.get('uuid')
+    if (!uid) {
+      uid = uuidv4()
+
+      this.$cookies.set('uuid', uid)
+    }
   },
   async generateAccessToken({ commit }) {
     try {
@@ -101,13 +111,23 @@ export const actions = {
 
       if (e.response) {
         if (e.response.status === 404) {
-          // ? No encontró el servicio
-          return {
-            success: false,
-            status: false,
-            code: 101,
-            message: this.$i18n.t('store.apiServices.notFound'),
-            error,
+          if (e.response.data.message) {
+            return {
+              success: false,
+              status: false,
+              code: 102,
+              message: e.response.data.message,
+              error: e,
+            }
+          } else {
+            // ? No encontró el servicio
+            return {
+              success: false,
+              status: false,
+              code: 101,
+              message: this.$i18n.t('store.apiServices.notFound'),
+              error,
+            }
           }
         } else if (e.response.data.code === 120) {
           const user = this.$cookies.get('userdata')
@@ -159,6 +179,10 @@ export const actions = {
       ...form,
       iv: iv.toString('hex'),
       password: enc(password),
+      platform: 'backoffice',
+      type: 'lc',
+      pushToken: this.$cookies.get('uuid'),
+      version: '1.0.0',
     }
 
     const result = await dispatch(`apiServices`, {
@@ -171,14 +195,49 @@ export const actions = {
     })
 
     if (result.code === 100) {
-      const body = result.body
-      const authToken = result.body.authToken
+      const body = result.data
+      const authToken = result.data.authToken
 
       delete body.authToken
 
-      commit('setUserData', body)
+      commit('setUserData', body.user)
       commit('setAuthToken', authToken, { root: true })
     }
+
+    return result
+  },
+  async verifyCode({ commit, dispatch }, form) {
+    const result = await dispatch(`apiServices`, {
+      type: 'post',
+      typeHeader: 'access',
+      form: {
+        url: `/onboarding/verify-code`,
+        content: form,
+      },
+    })
+
+    if (result.code === 100) {
+      const authToken = result.data.authToken
+      commit('setAuthToken', authToken, { root: true })
+    }
+
+    return result
+  },
+  async passwordRecovery({ commit, dispatch }, form) {
+    const password = form.password
+
+    const dataSend = {
+      iv: iv.toString('hex'),
+      password: enc(password),
+    }
+
+    const result = await dispatch(`apiServices`, {
+      type: 'put',
+      form: {
+        url: `/onboarding/update-password`,
+        content: dataSend,
+      },
+    })
 
     return result
   },
@@ -204,10 +263,30 @@ export const actions = {
 
     return result
   },
-  logout({ commit }) {
+  async logout({ commit, dispatch }) {
+    let settings = {}
+
+    settings.form = {
+      url: '/onboarding/logout',
+    }
+
+    settings.shortName = process.env.SHORT_NAME.toUpperCase()
+
+    settings.lang = this.$cookies.get('i18n_redirected')
+
+    settings.typeHeader = 'auth'
+
+    settings = await dispatch('configAuth', settings)
+
+    try {
+      await dispatch(`crud/get`, settings.form)
+    } catch (e) {
+      console.log('Falló al desvincular la cuenta', e)
+    }
+
     this.$cookies.remove('userdata')
     commit('setAuthToken', '', { root: true })
-    this.$router.push(this.localePath({ path: '/' }))
+    this.$router.push(this.localePath({ path: '/login' }))
   },
   configAuth({ _ }, settings) {
     const authToken = this.getters.getAuthToken

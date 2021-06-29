@@ -16,6 +16,7 @@
     "generate:production": "cross-env ENV=production nuxt generate"
   },
   "dependencies": {
+    "@bachdgvn/vue-otp-input": "^1.0.8",
     "@nuxtjs/axios": "^5.13.1",
     "cookie-universal-nuxt": "^2.1.4",
     "core-js": "^3.9.1",
@@ -28,6 +29,7 @@
     "primeflex": "^2.0.0",
     "primeicons": "^4.1.0",
     "primevue": "^2.4.1",
+    "uuid": "^8.3.2",
     "vuelidate": "^0.7.6"
   },
   "devDependencies": {
