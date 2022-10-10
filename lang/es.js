@@ -6,7 +6,9 @@ export default {
     ops: 'Operador',
   },
   title: {
-    login: 'Iniciar sesión',
+    login: 'INICIAR SESIÓN',
+    registerAsInstructor: 'REGISTRARSE COMO INSTRUCTOR',
+    registerAsStudent: 'REGISTRARSE COMO ESTUDIANTE',
     forgotPassword: 'Recuperar contraseña',
     validateCode: 'Verificar código',
     changePassword: 'Restablecer contraseña',
@@ -110,5 +112,30 @@ export default {
     country: 'Países',
     language: 'Idiomas',
     help: 'Ayuda',
+  },
+  components: {
+    landing: {
+      section: {
+        home: {
+          home: 'Home',
+          about: 'Sobre nosotros',
+          recommended: 'Recomendados',
+          testimonials: 'Testimonios',
+          title: 'transforma tu vida',
+          subtitle: 'Cursos y charlas para viajar el interior',
+          description:
+            'Somos una comunidad, un movimiento, un espacio. Construido por todos los guías y maestros dispuestos a compartir cursos y charlas para ayudar a quienes buscan una vida más plena.',
+        },
+        about: {
+          title: 'Sobre nosotros',
+          description:
+            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
+          mind: 'Mente',
+          body: 'Cuerpo',
+          emotion: 'Emoción',
+          action: 'Acción',
+        },
+      },
+    },
   },
 }

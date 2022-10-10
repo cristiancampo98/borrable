@@ -1,8 +1,8 @@
 <template>
   <Button
+    class="default"
     :class="classButton"
     :type="type === 'submit' ? type : 'button'"
-    :style="`backgroundColor: var(--${color}); border: 1px solid var(--${border}); color: var(--${textColor}); width: ${width}; border-radius: ${radius}; font-size: ${fontSize}; font-weight: ${weight}`"
     :label="label"
     @click="buttonClick"
   />
@@ -16,21 +16,6 @@ export default {
       required: false,
       default: '',
     },
-    color: {
-      type: String,
-      required: false,
-      default: 'primary-color',
-    },
-    border: {
-      type: String,
-      required: false,
-      default: 'primary-color',
-    },
-    textColor: {
-      type: String,
-      required: false,
-      default: 'text-color',
-    },
     label: {
       type: String,
       required: true,
@@ -39,26 +24,6 @@ export default {
       type: String,
       required: false,
       default: '',
-    },
-    width: {
-      type: String,
-      required: false,
-      default: '100%',
-    },
-    radius: {
-      type: String,
-      required: false,
-      default: '9px',
-    },
-    fontSize: {
-      type: String,
-      required: false,
-      default: '1.4em',
-    },
-    weight: {
-      type: String,
-      required: false,
-      default: 'normal',
     },
     url: {
       type: String,
@@ -78,3 +43,28 @@ export default {
   },
 }
 </script>
+<style lang="scss" scoped>
+.default {
+  @apply tw-rounded-full;
+}
+.bg-white {
+  @apply tw-bg-white;
+  @apply tw-border-white;
+  @apply tw-text-black hover:tw-text-black;
+}
+.h-44 {
+  @apply tw-h-11;
+}
+.h-55 {
+  @apply tw-h-[50px];
+}
+.text-xs {
+  @apply tw-text-[13px];
+}
+.gilroy-bold {
+  @apply tw-font-gilroy-bold #{!important};
+}
+.gilroy-semibold {
+  @apply tw-font-gilroy-semibold #{!important};
+}
+</style>
